@@ -1,0 +1,7 @@
+HERMES_SETTINGS = {
+    'URL': '',
+    'GROUP': {},
+    'RECEIVERS_MAPPING': {},
+    'PUBLISHING_TOPICS': {},
+    'SUBSCRIBERS_MAPPING': {},
+}

@@ -1,0 +1,4 @@
+# Additional requirements go here
+requests
+six
+# TODO: versions
