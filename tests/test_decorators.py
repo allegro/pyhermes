@@ -1,6 +1,6 @@
 #!/usr/bin/env python
 # -*- coding: utf-8 -*-
-from django.test import TestCase
+import unittest
 try:
     from unittest import mock
 except ImportError:
@@ -33,7 +33,7 @@ def subscriber11(a, b):
     return a + b
 
 
-class PublisherDecoratorTestCase(TestCase):
+class PublisherDecoratorTestCase(unittest.TestCase):
     def test_publishers_registry(self):
         self.assertEqual(
             PublishersHandlersRegistry.get_handlers(

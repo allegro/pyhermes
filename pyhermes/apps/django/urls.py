@@ -2,9 +2,8 @@
 
 from django.conf.urls import url
 
-from pyhermes.subscriber import subscriber_view
+from pyhermes.apps.django.views import subscriber_view
 
-# TODO: move it to django handler
 urlpatterns = [
     url(
         r'^events/(?P<subscriber_name>[a-zA-Z0-9_\.-]+)/$',

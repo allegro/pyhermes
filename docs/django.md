@@ -4,16 +4,16 @@
 
 To use `pyhermes` together with Django, follow these steps:
 
-1. Add `pyhermes` to `INSTALLED_APPS` in `settings.py`:
+1. Add `pyhermes.apps.django` to `INSTALLED_APPS` in `settings.py`:
 
 ```python
 INSTALLED_APPS = (
     # other apps
-    'pyhermes',
+    'pyhermes.apps.django',
 )
 ```
 
-2. Configure `pyhermes` in `settings.py`:
+2. Configure `pyhermes` in `settings.py`, for example:
 
 ```python
 HERMES = {
@@ -37,11 +37,11 @@ HERMES = {
 }
 ```
 
-3. Include `pyhermes.urls` in your `urls.py`:
+3. Include `pyhermes.apps.django.urls` in your `urls.py`:
 
 ```python
 urlpatterns += patterns('',
-    url(r'^hermes/', include('pyhermes.urls')),
+    url(r'^hermes/', include('pyhermes.apps.django.urls')),
 )
 ```
 

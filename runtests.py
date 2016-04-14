@@ -1,3 +1,4 @@
+# TODO: separate django (apps) and non-django (non-apps) tests
 import sys
 
 try:
@@ -12,12 +13,12 @@ try:
                 "ENGINE": "django.db.backends.sqlite3",
             }
         },
-        ROOT_URLCONF="pyhermes.urls",
+        ROOT_URLCONF="pyhermes.apps.django.urls",
         INSTALLED_APPS=[
             "django.contrib.auth",
             "django.contrib.contenttypes",
             "django.contrib.sites",
-            "pyhermes",
+            "pyhermes.apps.django",
         ],
         SITE_ID=1,
         MIDDLEWARE_CLASSES=(),

@@ -1,6 +1,9 @@
 """
 """
-from django.conf import settings
+try:
+    from django.conf import settings as user_settings
+except ImportError:
+    user_settings = object()
 
 from pyhermes.exceptions import PyhermesImproperlyConfiguredError
 
@@ -14,12 +17,13 @@ DEFAULTS = {
     'PUBLISHING_TOPICS': {},
     'SUBSCRIBERS_MAPPING': {},
 }
+# TODO: publishing timeout
 
 
 class HermesSettings(object):
     def __getattr__(self, attr):
         try:
-            return getattr(settings, 'HERMES', {})[attr]
+            return getattr(user_settings, 'HERMES', {})[attr]
         except KeyError:
             return DEFAULTS[attr]
 

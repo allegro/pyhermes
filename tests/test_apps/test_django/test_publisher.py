@@ -1,12 +1,12 @@
 # -*- coding: utf-8 -*-
 import responses
 from ddt import ddt, data, unpack
-from django.conf import settings
 from django.test import override_settings, TestCase
 from requests.exceptions import ConnectionError, HTTPError, Timeout
 
 from pyhermes.exceptions import HermesPublishException
 from pyhermes.publisher import publish
+from pyhermes.settings import HERMES_SETTINGS
 
 
 def fake_connection_error(request):
@@ -45,7 +45,7 @@ class PublisherTestCase(TestCase):
         responses.add(
             method=responses.POST,
             url="{}/topics/{}.{}".format(
-                settings.HERMES['BASE_URL'], TEST_GROUP_NAME, TEST_TOPIC
+                HERMES_SETTINGS.BASE_URL, TEST_GROUP_NAME, TEST_TOPIC
             ),
             match_querystring=True,
             body=None,
@@ -74,7 +74,7 @@ class PublisherTestCase(TestCase):
         responses.add(
             method=responses.POST,
             url="{}/topics/{}.{}".format(
-                settings.HERMES['BASE_URL'], TEST_GROUP_NAME, TEST_TOPIC
+                HERMES_SETTINGS.BASE_URL, TEST_GROUP_NAME, TEST_TOPIC
             ),
             match_querystring=True,
             body=None,
@@ -101,7 +101,7 @@ class PublisherTestCase(TestCase):
         responses.add_callback(
             method=responses.POST,
             url="{}/topics/{}.{}".format(
-                settings.HERMES['BASE_URL'], TEST_GROUP_NAME, TEST_TOPIC
+                HERMES_SETTINGS.BASE_URL, TEST_GROUP_NAME, TEST_TOPIC
             ),
             match_querystring=True,
             content_type='application/json',
