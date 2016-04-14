@@ -16,26 +16,19 @@ env:
   - TOX_ENV=py34-django18
   - TOX_ENV=py27-django18
 
-  - TOX_ENV=py35-django17
   - TOX_ENV=py34-django17
+  - TOX_ENV=py33-django17
   - TOX_ENV=py27-django17
-
-  - TOX_ENV=py35-django16
-  - TOX_ENV=py34-django16
-  - TOX_ENV=py27-django16
-
-  - TOX_ENV=py35-django15
-  - TOX_ENV=py34-django15
-  - TOX_ENV=py27-django15
 
 matrix:
   fast_finish: true
 
 install:
-  - pip install tox
+  - pip install tox flake8
 
 script:
   - tox -e $TOX_ENV
+  - make lint
 
 after_success:
   - pip install codecov

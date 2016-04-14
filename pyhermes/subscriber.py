@@ -10,30 +10,32 @@ from pyhermes.exceptions import TopicHandlersNotFoundError
 from pyhermes.registry import SubscribersHandlersRegistry
 from pyhermes.settings import HERMES_SETTINGS
 
-HERMES_SUBSCRIBERS_MAPPING = HERMES_SETTINGS['SUBSCRIBERS_MAPPING']
-
 logger = logging.getLogger(__name__)
 
 
+# TODO: move it to django handler
 @csrf_exempt
 @require_POST
-def subscriber(request, subscriber_name):
+def subscriber_view(request, subscriber_name):
+    raw_data = request.read().decode('utf-8')
     try:
-        subscribers = SubscribersHandlersRegistry.get_handlers(
-            HERMES_SUBSCRIBERS_MAPPING.get(subscriber_name, subscriber_name)
-        )
+        handle_subscription(subscriber_name, raw_data)
     except TopicHandlersNotFoundError:
         logger.error('subscriber `{}` does not exist.'.format(subscriber_name))
         return HttpResponse(status=404)
+    except ValueError:
+        # json loading error
+        # TODO: better handling
+        return HttpResponse(status=400)
     else:
-        raw_data = request.read().decode('utf-8')
-        try:
-            data = json.loads(raw_data)
-        except ValueError:
-            return HttpResponse(status=400)
-        logger.info('`{}` received message: {}'.format(
-            subscriber_name, str(data)
-        ))
-        for subscriber in subscribers:
-            subscriber(data)
         return HttpResponse(status=204)
+
+
+def handle_subscription(topic, raw_data):
+    data = json.loads(raw_data)
+    subscribers = SubscribersHandlersRegistry.get_handlers(
+        HERMES_SETTINGS.SUBSCRIBERS_MAPPING.get(topic, topic)
+    )
+    logger.info('`{}` received message: {}'.format(topic, str(data)))
+    for subscriber in subscribers:
+        subscriber(data)

@@ -1,10 +1,14 @@
-class DjangoHermesException(Exception):
+class PyhermesException(Exception):
     pass
 
 
-class HermesPublishException(DjangoHermesException):
+class HermesPublishException(PyhermesException):
     pass
 
 
-class TopicHandlersNotFoundError(DjangoHermesException):
+class TopicHandlersNotFoundError(PyhermesException):
+    pass
+
+
+class PyhermesImproperlyConfiguredError(PyhermesException):
     pass

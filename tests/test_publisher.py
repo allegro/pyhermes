@@ -20,10 +20,14 @@ def fake_http_error(request):
 def fake_timeout(request):
     raise Timeout('timeout')
 
+TEST_GROUP_NAME = 'pl.allegro.pyhermes'
+TEST_TOPIC = 'test-publisher-topic1'
 TEST_HERMES_SETTINGS = {
-    'BASE_URL': 'http://pyhermes.tech'
+    'BASE_URL': 'http://hermes.local',
+    'PUBLISHING_GROUP': {
+        'groupName': TEST_GROUP_NAME,
+    }
 }
-TEST_TOPIC = 'pl.allegro.pyhermes.test-publisher-topic1'
 
 
 @ddt
@@ -40,7 +44,9 @@ class PublisherTestCase(TestCase):
         data = {'test': 'data'}
         responses.add(
             method=responses.POST,
-            url="{}/topics/{}".format(settings.HERMES['BASE_URL'], TEST_TOPIC),
+            url="{}/topics/{}.{}".format(
+                settings.HERMES['BASE_URL'], TEST_GROUP_NAME, TEST_TOPIC
+            ),
             match_querystring=True,
             body=None,
             status=status_code,
@@ -67,7 +73,9 @@ class PublisherTestCase(TestCase):
         data = {'test': 'data'}
         responses.add(
             method=responses.POST,
-            url="{}/topics/{}".format(settings.HERMES['BASE_URL'], TEST_TOPIC),
+            url="{}/topics/{}.{}".format(
+                settings.HERMES['BASE_URL'], TEST_GROUP_NAME, TEST_TOPIC
+            ),
             match_querystring=True,
             body=None,
             status=status_code,
@@ -92,7 +100,9 @@ class PublisherTestCase(TestCase):
         data = {'test': 'data'}
         responses.add_callback(
             method=responses.POST,
-            url="{}/topics/{}".format(settings.HERMES['BASE_URL'], TEST_TOPIC),
+            url="{}/topics/{}.{}".format(
+                settings.HERMES['BASE_URL'], TEST_GROUP_NAME, TEST_TOPIC
+            ),
             match_querystring=True,
             content_type='application/json',
             callback=fake_handler,

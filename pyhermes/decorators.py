@@ -5,7 +5,7 @@ from pyhermes.registry import (
     PublishersHandlersRegistry,
     SubscribersHandlersRegistry
 )
-from pyhermes.publisher import publish
+from pyhermes.publisher import _strip_topic_group, publish
 
 
 class subscriber(object):
@@ -22,7 +22,7 @@ class subscriber(object):
 
 class publisher(object):
     def __init__(self, topic, auto_publish_result=False):
-        self.topic = topic
+        self.topic = _strip_topic_group(topic)
         self.auto_publish_result = auto_publish_result
 
     def __call__(self, func):

@@ -1,0 +1,16 @@
+site_name: pyhermes
+repo_url: https://github.com/allegro/pyhermes/
+pages:
+  - Quickstart: index.md
+  - Installation: installation.md
+  - Configuration: configuration.md
+  - Subscribing: subscribing.md
+  - Publishing: publishing.md
+  - Django integration: django.md
+theme: readthedocs
+strict: true
+dev_addr: 0.0.0.0:8003
+markdown_extensions:
+    - toc:
+        permalink: True
+site_dir: docs/_build/html  # sphinx compatible

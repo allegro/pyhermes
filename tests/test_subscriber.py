@@ -2,12 +2,9 @@
 import json
 
 from ddt import ddt, data as ddt_data, unpack
-from django.conf import settings
 from django.core.urlresolvers import reverse
-from django.test import Client, override_settings, RequestFactory, TestCase
-from requests.exceptions import ConnectionError, HTTPError, Timeout
+from django.test import Client, TestCase
 
-from pyhermes.exceptions import HermesPublishException
 from pyhermes.decorators import subscriber
 
 
@@ -71,6 +68,7 @@ class SubscriberTestCase(TestCase):
     )
     def test_subscription_bad_request(self, data):
         topic = 'pl.allegro.pyhermes.test-subscriber-topic3'
+
         @subscriber(topic=topic)
         def subscriber_1(d):
             pass

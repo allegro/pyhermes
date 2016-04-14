@@ -1,7 +1,7 @@
 ## pyhermes
 
 [![Version Badge](https://badge.fury.io/py/pyhermes.png)](https://badge.fury.io/py/pyhermes.png)
-[![Build Status](https://travis-ci.org/allegro/pyhermes.png?branch=master)](https://travis-ci.org/allegro/pyhermes)
+[![Build Status](https://travis-ci.org/mkurek/pyhermes.png?branch=master)](https://travis-ci.org/allegro/pyhermes)
 
 The Python interface to the [Hermes](http://hermes.allegro.tech) message broker.
 
@@ -13,13 +13,13 @@ The full documentation is at https://pyhermes.readthedocs.org.
 
 To install pyhermes, simply:
 
-```
+```python
 pip install pyhermes
 ```
 
 Then use it in a project:
 
-```
+```python
 import pyhermes
 ```
 
@@ -33,7 +33,7 @@ import pyhermes
 
 To create handler for particular subscription topic decorate your function using `subscribe` decorator:
 
-```
+```python
 import pyhermes
 
 @subscriber(topic='pl.allegro.pyhermes.sample-topic')
@@ -45,7 +45,8 @@ This function will be called every time there is new message published to the se
 
 ### Publisher
 Use `publish` function to publish data to some topic in hermes:
-```
+
+```python
 import pyhermes
 
 @publisher(topic='pl.allegro.pyhermes.sample-topic')
@@ -55,7 +56,8 @@ def my_complex_function(a, b, c):
 ```
 
 You could publish directly result of the function as well:
-```
+
+```python
 import pyhermes
 
 @publisher(topic='pl.allegro.pyhermes.sample-topic', auto_publish_result=True)
@@ -69,7 +71,7 @@ Result of decorated function is automatically published to selected topic in her
 
 Does the code actually work?
 
-```
+```python
 source <YOURVIRTUALENV>/bin/activate
 (myenv) $ pip install -r requirements-test.txt
 (myenv) $ python runtests.py
