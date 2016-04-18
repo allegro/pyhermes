@@ -1,4 +1,11 @@
 """
+Proxy for all settings of pyhermes
+
+Handles:
+    * django settings
+    * custom calling of `update` method
+
+Use `HERMES_SETTINGS` for all of pyhermes settings.
 """
 import six
 
@@ -25,6 +32,9 @@ DEFAULTS = {
 
 
 class HermesSettings(six.with_metaclass(Singleton, object)):
+    """
+
+    """
     def __init__(self):
         self._wrapper = None
 
@@ -39,7 +49,7 @@ class HermesSettings(six.with_metaclass(Singleton, object)):
 
     def update(self, **settings):
         if not isinstance(user_settings, AttributeDict):
-            raise TypeError()
+            raise TypeError()  # TODO: better info
         user_settings['HERMES'].update(settings)
 
 HERMES_SETTINGS = HermesSettings()
@@ -56,4 +66,6 @@ def _validate_hermes_settings(hermes_settings):
             'Hermes GROUP info not provided'
         )
 
+
+# TODO: validate
 # _validate_hermes_settings(HERMES_SETTINGS)

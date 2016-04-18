@@ -23,7 +23,14 @@ def _strip_topic_group(topic):
 
 
 def _get_full_topic_name(topic):
-    return '{}.{}'.format(HERMES_SETTINGS.PUBLISHING_GROUP['groupName'], topic)
+    """
+
+    """
+    if not topic.startswith(HERMES_SETTINGS.PUBLISHING_GROUP['groupName']):
+        topic = '{}.{}'.format(
+            HERMES_SETTINGS.PUBLISHING_GROUP['groupName'], topic
+        )
+    return topic
 
 
 def _handle_request_adapter(request_session):

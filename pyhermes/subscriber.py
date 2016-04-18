@@ -9,6 +9,14 @@ logger = logging.getLogger(__name__)
 
 
 def handle_subscription(topic, raw_data):
+    """
+    Handler for topic subscription. Should be exposed (and possibly wrapped)
+    through HTTP endpoint in chosen framework.
+
+    Args:
+        * topic: name of Hermes topic
+        * raw_data: string with raw data for event
+    """
     data = json.loads(raw_data)
     subscribers = SubscribersHandlersRegistry.get_handlers(
         HERMES_SETTINGS.SUBSCRIBERS_MAPPING.get(topic, topic)

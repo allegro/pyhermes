@@ -9,6 +9,15 @@ from pyhermes.publisher import _strip_topic_group, publish
 
 
 class subscriber(object):
+    """
+    Mark function as subscription handler. Functions decorated with
+    `subscriber` decorator will be called automatically by subscription handler
+
+    Usage:
+    @subscriber(topic='pl.allegro.pyhermes.topic1')
+    def my_subscriber(data):
+        ...
+    """
     def __init__(self, topic):
         self.topic = topic
 
@@ -21,6 +30,19 @@ class subscriber(object):
 
 
 class publisher(object):
+    """
+    Mark function as topic publisher.
+
+    Usage:
+    @publisher(topic='pl.allegro.pyhermes.topic1')
+    def my_publisher():
+        ...
+
+    Args:
+        * topic - name of Hermes topic (could be with or without group name)
+        * auto_publish_result - set to True if result of the function should be
+            automatically published to Hermes.
+    """
     def __init__(self, topic, auto_publish_result=False):
         self.topic = _strip_topic_group(topic)
         self.auto_publish_result = auto_publish_result

@@ -3,7 +3,6 @@ from unittest import TestCase
 
 import responses
 from ddt import ddt, data, unpack
-# from django.test import override_settings, TestCase
 from requests.exceptions import ConnectionError, HTTPError, Timeout
 
 from pyhermes.exceptions import HermesPublishException
@@ -60,6 +59,28 @@ class PublisherTestCase(TestCase):
         )
         # TODO: check data
         response = publish(TEST_TOPIC, data)
+        self.assertEqual(response, hermes_event_id)
+
+    @override_hermes_settings(HERMES=TEST_HERMES_SETTINGS)
+    @responses.activate
+    def test_publish_full_topic_name(self):
+        hermes_event_id = 'hermes_ok'
+        data = {'test': 'data'}
+        responses.add(
+            method=responses.POST,
+            url="{}/topics/{}.{}".format(
+                HERMES_SETTINGS.BASE_URL, TEST_GROUP_NAME, TEST_TOPIC
+            ),
+            match_querystring=True,
+            body=None,
+            status=201,
+            content_type='application/json',
+            adding_headers={
+                'Hermes-Message-Id': hermes_event_id
+            }
+        )
+        # TODO: check data
+        response = publish('{}.{}'.format(TEST_GROUP_NAME, TEST_TOPIC), data)
         self.assertEqual(response, hermes_event_id)
 
     @override_hermes_settings(HERMES=TEST_HERMES_SETTINGS)

@@ -4,7 +4,12 @@ from functools import wraps
 
 class AttributeDict(dict):
     """
-    Attribute dict. Used to attribute access to dict
+    Dict which can handle access to keys using attributes.
+
+    Example:
+    >>> ad = AttributeDict({'a': 'b'})
+    >>> ad.a
+    ... b
     """
     def __init__(self, *args, **kwargs):
         super(AttributeDict, self).__init__(*args, **kwargs)
@@ -23,6 +28,14 @@ class Singleton(type):
 
 
 class override_hermes_settings(object):
+    """
+    Utility context manager for overriding pyhermes settings in some context
+    (ex. during single test). Could be used as a decorator as well:
+
+    @override_hermes_settings(HERMES={'BASE_URL': 'http://hermes.local'})
+    def my_test():
+        ...
+    """
     def __init__(self, **kwargs):
         self.options = kwargs
 

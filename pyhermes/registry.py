@@ -27,12 +27,18 @@ class HandlerRegistryMixin(object):
 class SubscribersHandlersRegistry(
     six.with_metaclass(Singleton, HandlerRegistryMixin)
 ):
+    """
+    Registry of subscription handlers.
+    """
     pass
 
 
 class PublishersHandlersRegistry(
     six.with_metaclass(Singleton, HandlerRegistryMixin)
 ):
+    """
+    Registry of publishers.
+    """
     pass
 
 
