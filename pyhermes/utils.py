@@ -1,4 +1,14 @@
 # -*- coding: utf-8 -*-
+from functools import wraps
+
+
+class AttributeDict(dict):
+    """
+    Attribute dict. Used to attribute access to dict
+    """
+    def __init__(self, *args, **kwargs):
+        super(AttributeDict, self).__init__(*args, **kwargs)
+        self.__dict__ = self
 
 
 class Singleton(type):
@@ -10,3 +20,23 @@ class Singleton(type):
         if cls.instance is None:
             cls.instance = super(Singleton, cls).__call__(*args, **kw)
         return cls.instance
+
+
+class override_hermes_settings(object):
+    def __init__(self, **kwargs):
+        self.options = kwargs
+
+    def __enter__(self):
+        from pyhermes.settings import HERMES_SETTINGS
+        HERMES_SETTINGS._wrapper = self.options
+
+    def __exit__(self, exc_type, exc_value, traceback):
+        from pyhermes.settings import HERMES_SETTINGS
+        HERMES_SETTINGS._wrapper = None
+
+    def __call__(self, func):
+        @wraps(func)
+        def wrapper(*args, **kwargs):
+            with self:
+                return func(*args, **kwargs)
+        return wrapper

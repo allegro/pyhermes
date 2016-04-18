@@ -1,11 +1,15 @@
 """
 """
+import six
+
 try:
     from django.conf import settings as user_settings
 except ImportError:
-    user_settings = object()
+    from pyhermes.utils import AttributeDict  # noqa
+    user_settings = AttributeDict({'HERMES': {}})
 
 from pyhermes.exceptions import PyhermesImproperlyConfiguredError
+from pyhermes.utils import Singleton
 
 _DEFAULT_GROUP_NAME = '__default__'
 DEFAULTS = {
@@ -20,12 +24,23 @@ DEFAULTS = {
 # TODO: publishing timeout
 
 
-class HermesSettings(object):
+class HermesSettings(six.with_metaclass(Singleton, object)):
+    def __init__(self):
+        self._wrapper = None
+
     def __getattr__(self, attr):
         try:
-            return getattr(user_settings, 'HERMES', {})[attr]
+            if self._wrapper:
+                return self._wrapper['HERMES'][attr]
+            else:
+                return getattr(user_settings, 'HERMES', {})[attr]
         except KeyError:
             return DEFAULTS[attr]
+
+    def update(self, **settings):
+        if not isinstance(user_settings, AttributeDict):
+            raise TypeError()
+        user_settings['HERMES'].update(settings)
 
 HERMES_SETTINGS = HermesSettings()
 

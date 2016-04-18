@@ -1,12 +1,15 @@
 # -*- coding: utf-8 -*-
+from unittest import TestCase
+
 import responses
 from ddt import ddt, data, unpack
-from django.test import override_settings, TestCase
+# from django.test import override_settings, TestCase
 from requests.exceptions import ConnectionError, HTTPError, Timeout
 
 from pyhermes.exceptions import HermesPublishException
 from pyhermes.publisher import publish
 from pyhermes.settings import HERMES_SETTINGS
+from pyhermes.utils import override_hermes_settings
 
 
 def fake_connection_error(request):
@@ -32,7 +35,7 @@ TEST_HERMES_SETTINGS = {
 
 @ddt
 class PublisherTestCase(TestCase):
-    @override_settings(HERMES=TEST_HERMES_SETTINGS)
+    @override_hermes_settings(HERMES=TEST_HERMES_SETTINGS)
     @responses.activate
     @unpack
     @data(
@@ -59,7 +62,7 @@ class PublisherTestCase(TestCase):
         response = publish(TEST_TOPIC, data)
         self.assertEqual(response, hermes_event_id)
 
-    @override_settings(HERMES=TEST_HERMES_SETTINGS)
+    @override_hermes_settings(HERMES=TEST_HERMES_SETTINGS)
     @responses.activate
     @unpack
     @data(
@@ -88,7 +91,7 @@ class PublisherTestCase(TestCase):
             'Bad response code during Hermes push: {}.'.format(status_code)
         )
 
-    @override_settings(HERMES=TEST_HERMES_SETTINGS)
+    @override_hermes_settings(HERMES=TEST_HERMES_SETTINGS)
     @responses.activate
     @unpack
     @data(
