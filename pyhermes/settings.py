@@ -20,6 +20,7 @@ from pyhermes.utils import Singleton
 
 _DEFAULT_GROUP_NAME = '__default__'
 DEFAULTS = {
+    'ENABLED': True,
     'BASE_URL': '',
     'URL_ADAPTER': None,
     'PUBLISHING_GROUP': {

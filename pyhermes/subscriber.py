@@ -17,6 +17,9 @@ def handle_subscription(topic, raw_data):
         * topic: name of Hermes topic
         * raw_data: string with raw data for event
     """
+    if not HERMES_SETTINGS.ENABLED:
+        logger.debug('Hermes integration is disabled')
+        return
     data = json.loads(raw_data)
     subscribers = SubscribersHandlersRegistry.get_handlers(
         HERMES_SETTINGS.SUBSCRIBERS_MAPPING.get(topic, topic)

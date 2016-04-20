@@ -55,6 +55,9 @@ def publish(topic, data):
         message id from Hermes
     """
     # TODO: try-except
+    if not HERMES_SETTINGS.ENABLED:
+        logger.debug('Hermes integration is disabled')
+        return
     json_data = json.dumps(data)
     headers = {'Content-Type': 'application/json'}
     url = "{}/topics/{}".format(
