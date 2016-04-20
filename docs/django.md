@@ -46,3 +46,13 @@ urlpatterns += patterns('',
 ```
 
 > Use `<YOUR-APP-URL>/hermes/events/<TOPIC-NAME>` (for example `http://my-django-app.local/hermes/events/pl.allegro.pyhermes.test1`) to subscribe to particular topic in Hermes.
+
+
+## Test command
+After instalation you can test your configuration by following command:
+
+```bash
+./manage.py hermes_test
+```
+
+Command send message to all topics defined in settings to Hermes.

@@ -5,7 +5,7 @@ Use `pyhermes.subscriber` decorator to mark your function as incoming message ha
 ```python
 from pyhermes import subscriber
 
-@subcriber(topic='sample-topic')
+@subscriber(topic='sample-topic')
 def handler(data):
     # process data
     ...
