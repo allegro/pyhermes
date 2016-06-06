@@ -24,6 +24,7 @@ def handle_subscription(topic, raw_data):
     subscribers = SubscribersHandlersRegistry.get_handlers(
         HERMES_SETTINGS.SUBSCRIBERS_MAPPING.get(topic, topic)
     )
-    logger.info('`{}` received message: {}'.format(topic, str(data)))
+    logger.info('Received message for topic "{}"'.format(topic))
+    logger.debug('Message data {}'.format(str(data)))
     for subscriber in subscribers:
         subscriber(data)

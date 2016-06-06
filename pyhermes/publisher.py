@@ -63,7 +63,11 @@ def publish(topic, data):
     url = "{}/topics/{}".format(
         HERMES_SETTINGS.BASE_URL, _get_full_topic_name(topic)
     )
-    logger.info('Pushing message {} to url {}'.format(json_data, url))
+    logger.debug(
+        'Pushing message to topic "{}" (url: "{}") with data: {}'.format(
+            topic, url, json_data
+        )
+    )
     with requests.Session() as session:
         _handle_request_adapter(session)
         try:
@@ -82,6 +86,8 @@ def publish(topic, data):
 
     hermes_event_id = resp.headers.get('Hermes-Message-Id')
     logger.info(
-        'Event sent to Hermes with event_id={}'.format(hermes_event_id)
+        'Event with topic "{}"" sent to Hermes with event_id={}'.format(
+            topic, hermes_event_id
+        )
     )
     return hermes_event_id
