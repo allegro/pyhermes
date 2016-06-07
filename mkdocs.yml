@@ -7,6 +7,7 @@ pages:
   - Subscribing: subscribing.md
   - Publishing: publishing.md
   - Django integration: django.md
+  - Mock client: hermes_mock.md
 theme: readthedocs
 strict: true
 dev_addr: 0.0.0.0:8003
