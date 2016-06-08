@@ -1,7 +1,7 @@
 ## pyhermes
 
 [![Version Badge](https://badge.fury.io/py/pyhermes.png)](https://badge.fury.io/py/pyhermes.png)
-[![Build Status](https://travis-ci.org/mkurek/pyhermes.png?branch=master)](https://travis-ci.org/allegro/pyhermes)
+[![Build Status](https://travis-ci.org/allegro/pyhermes.png?branch=master)](https://travis-ci.org/allegro/pyhermes)
 
 The Python interface to the [Hermes](http://hermes.allegro.tech) message broker.
 
