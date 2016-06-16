@@ -21,10 +21,11 @@ class subscriber(object):
     def __init__(self, topic):
         self.topic = topic
 
+    def _get_wrapper(self, func):
+        return func
+
     def __call__(self, func):
-        @wraps(func)
-        def wrapper(*args, **kwargs):
-            return func(*args, **kwargs)
+        wrapper = self._get_wrapper(func)
         SubscribersHandlersRegistry.add_handler(self.topic, wrapper)
         return wrapper
 
