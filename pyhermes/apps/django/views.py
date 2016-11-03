@@ -6,7 +6,7 @@ from django.views.decorators.csrf import csrf_exempt
 from django.views.decorators.http import require_POST
 
 from pyhermes.exceptions import TopicHandlersNotFoundError
-from pyhermes.subscriber import handle_subscription
+from pyhermes.subscription import handle_subscription
 
 logger = logging.getLogger(__name__)
 
