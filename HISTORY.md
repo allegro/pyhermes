@@ -1,6 +1,11 @@
 
 # History
 
+## 0.2.0 (2016-11-03)
+
+* Fix ambiguity with pyhermes.decorators.subscriber (rename subscriber module to subscription)
+
+
 ## 0.1.3 (2016-06-21)
 
 * Allow for custom wrapper around subcriber function
