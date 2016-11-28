@@ -28,6 +28,7 @@ DEFAULTS = {
     },
     'PUBLISHING_TOPICS': {},
     'SUBSCRIBERS_MAPPING': {},
+    'RETRY_MAX_ATTEMTPS': 3,
 }
 # TODO: publishing timeout
 

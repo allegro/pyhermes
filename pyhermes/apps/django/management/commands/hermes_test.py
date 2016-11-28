@@ -2,7 +2,7 @@
 from django.core.management.base import BaseCommand
 
 from pyhermes.exceptions import HermesPublishException
-from pyhermes.publisher import publish
+from pyhermes.publishing import publish
 from pyhermes.settings import HERMES_SETTINGS
 
 TOPICS_ALL = 'all'

@@ -21,7 +21,7 @@ try:
             "pyhermes.apps.django",
         ],
         SITE_ID=1,
-        MIDDLEWARE_CLASSES=(),
+        MIDDLEWARE_CLASSES=()
     )
 
     try:

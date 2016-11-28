@@ -6,6 +6,7 @@ from requests.exceptions import ConnectionError, HTTPError, Timeout
 
 from pyhermes.exceptions import HermesPublishException
 from pyhermes.settings import HERMES_SETTINGS
+from pyhermes.utils import retry
 
 logger = logging.getLogger(__name__)
 
@@ -43,6 +44,31 @@ def _handle_request_adapter(request_session):
         request_session.mount(*HERMES_SETTINGS.URL_ADAPTER())
 
 
+@retry(
+    max_attempts=HERMES_SETTINGS.RETRY_MAX_ATTEMTPS,
+    retry_exceptions=(HermesPublishException,),
+    logger=logger,
+)
+def _send_message_to_hermes(url, headers, json_data):
+    """
+    Send message to hermes with retrying.
+    """
+    with requests.Session() as session:
+        _handle_request_adapter(session)
+        try:
+            resp = session.post(url, headers=headers, data=json_data)
+        except (ConnectionError, HTTPError, Timeout) as e:
+            message = 'Error pushing event to Hermes: {}.'.format(e)
+            raise HermesPublishException(message)
+
+    if resp.status_code not in HERMES_VALID_RESPONSE_CODES:
+        message = 'Bad response code during Hermes push: {}.'.format(
+            resp.status_code
+        )
+        raise HermesPublishException(message)
+    return resp
+
+
 def publish(topic, data):
     """
     Push an event to the Hermes.
@@ -68,21 +94,12 @@ def publish(topic, data):
             topic, url, json_data
         )
     )
-    with requests.Session() as session:
-        _handle_request_adapter(session)
-        try:
-            resp = session.post(url, headers=headers, data=json_data)
-        except (ConnectionError, HTTPError, Timeout) as e:
-            message = 'Error pushing event to Hermes: {}.'.format(e)
-            logger.exception(message)
-            raise HermesPublishException(message)
-
-    if resp.status_code not in HERMES_VALID_RESPONSE_CODES:
-        message = 'Bad response code during Hermes push: {}.'.format(
-            resp.status_code
-        )
-        logger.error(message)
-        raise HermesPublishException(message)
+    try:
+        resp = _send_message_to_hermes(url, headers, json_data)
+    except HermesPublishException as e:
+        message = 'Error pushing event to Hermes: {}.'.format(str(e))
+        logger.exception(message)
+        raise
 
     hermes_event_id = resp.headers.get('Hermes-Message-Id')
     logger.info(

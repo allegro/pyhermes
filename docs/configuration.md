@@ -21,6 +21,10 @@ BASE_URL = 'service://hermes'
 URL_ADAPTER = consul_adapter
 ```
 
+## `RETRY_MAX_ATTEMTPS`
+
+Specify how many times pyhermes should retry communication with Hermes. Default: 3
+
 ## `PUBLISHING_GROUP`
 Configuration of Hermes group to which you application will publish messages. Keys of this dictionary are the same as in [Hermes creating group](http://hermes-pubsub.readthedocs.org/en/latest/user/publishing/#creating-group) request body. Example:
 ```python
