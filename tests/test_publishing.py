@@ -1,9 +1,5 @@
 # -*- coding: utf-8 -*-
 from unittest import TestCase
-try:
-    from unittest import mock
-except ImportError:
-    import mock
 
 import responses
 from ddt import ddt, data, unpack
