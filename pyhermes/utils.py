@@ -3,7 +3,6 @@ import logging
 from functools import wraps
 
 
-
 class AttributeDict(dict):
     """
     Dict which can handle access to keys using attributes.
