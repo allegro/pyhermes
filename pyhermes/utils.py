@@ -56,7 +56,22 @@ class override_hermes_settings(object):
         return wrapper
 
 
+# TODO(mkurek): add delay between consecutive retries
 class retry(object):
+    """
+    Decorator providing retrying in case of error in wrapped function.
+
+    Args:
+        * max_attempts (int) - maximum number of retries
+        * retry_exceptions (iterable) - exceptions, on which retry should
+          happen
+        * logger (Logger) - instance of python Logger
+
+    Usage:
+    @retry(max_attempts=4, retryExceptions=[ValueError])
+    def send_data(url, data):
+        ...
+    """
     def __init__(self, max_attempts=1, retry_exceptions=None, logger=None):
         self.max_attempts = max_attempts
         assert self.max_attempts > 0
