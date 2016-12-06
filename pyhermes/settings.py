@@ -53,6 +53,7 @@ class HermesSettings(six.with_metaclass(Singleton, object)):
             raise TypeError()  # TODO: better info
         user_settings['HERMES'].update(settings)
 
+
 HERMES_SETTINGS = HermesSettings()
 
 
