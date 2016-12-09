@@ -22,6 +22,7 @@ def fake_http_error(request):
 def fake_timeout(request):
     raise Timeout('timeout')
 
+
 TEST_GROUP_NAME = 'pl.allegro.pyhermes'
 TEST_TOPIC = 'test-publisher-topic1'
 TEST_HERMES_SETTINGS = {
