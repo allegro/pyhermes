@@ -1,6 +1,10 @@
 
 # History
 
+## 0.2.1 (2016-12-12)
+
+* Configure custom label for django app #11
+
 ## 0.2.0 (2016-11-03)
 
 * Fix ambiguity with pyhermes.decorators.subscriber (rename subscriber module to subscription)
