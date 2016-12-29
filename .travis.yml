@@ -50,7 +50,7 @@ install:
 script:
   # - tox -e $TOX_ENV
   # - make lint
-  - "find / -type f -executable -iname 'python*' -exec file -i '{}' \; | awk -F: '/x-executable; charset=binary/ {print $1}' | xargs readlink -f | sort -u | xargs -I % sh -c 'echo -n "%: "; % -V'"
+  - "find / -type f -executable -iname 'python*' -exec file -i '{}' \; | awk -F: '/x-executable; charset=binary/ {print $1}' | xargs readlink -f | sort -u | xargs -I % sh -c '% -V'"
 
 after_success:
   - pip install codecov
