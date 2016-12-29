@@ -50,7 +50,9 @@ install:
 script:
   # - tox -e $TOX_ENV
   # - make lint
-  - "find / -type f -executable -iname 'python*' -exec file -i '{}' \; | awk -F: '/x-executable; charset=binary/ {print $1}' | xargs readlink -f | sort -u | xargs -I % sh -c '% -V'"
+  - ls -al /home/travis/virtualenv/
+  - echo $(which python2)
+  # - "find / -type f -executable -iname 'python*' -exec file -i '{}' \; | awk -F: '/x-executable; charset=binary/ {print $1}' | xargs readlink -f | sort -u | xargs -I % sh -c '% -V'"
 
 after_success:
   - pip install codecov
