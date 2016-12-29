@@ -8,10 +8,22 @@ python:
 sudo: false
 
 env:
+  - TOX_ENV=py36-djangodev
+  - TOX_ENV=py35-djangodev
+  - TOX_ENV=py34-djangodev
+  - TOX_ENV=py27-djangodev
+
+  - TOX_ENV=py36-django110
+  - TOX_ENV=py35-django110
+  - TOX_ENV=py34-django110
+  - TOX_ENV=py27-django110
+
+  - TOX_ENV=py36-django19
   - TOX_ENV=py35-django19
   - TOX_ENV=py34-django19
   - TOX_ENV=py27-django19
 
+  - TOX_ENV=py36-django18
   - TOX_ENV=py35-django18
   - TOX_ENV=py34-django18
   - TOX_ENV=py27-django18
