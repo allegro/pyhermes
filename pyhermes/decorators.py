@@ -5,7 +5,7 @@ from pyhermes.registry import (
     PublishersHandlersRegistry,
     SubscribersHandlersRegistry
 )
-from pyhermes.publisher import _strip_topic_group, publish
+from pyhermes.publishing import _strip_topic_group, publish
 
 
 class subscriber(object):

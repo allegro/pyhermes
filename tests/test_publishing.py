@@ -6,7 +6,7 @@ from ddt import ddt, data, unpack
 from requests.exceptions import ConnectionError, HTTPError, Timeout
 
 from pyhermes.exceptions import HermesPublishException
-from pyhermes.publisher import publish
+from pyhermes.publishing import publish
 from pyhermes.settings import HERMES_SETTINGS
 from pyhermes.utils import override_hermes_settings
 
@@ -138,3 +138,57 @@ class PublisherTestCase(TestCase):
             str(cm.exception),
             'Error pushing event to Hermes: {}.'.format(msg)
         )
+
+    @override_hermes_settings(HERMES=TEST_HERMES_SETTINGS)
+    @responses.activate
+    def test_publish_request_error_with_retry(self):
+        data = {'test': 'data'}
+        hermes_event_id = 'hermes_ok'
+        tries = [0]
+
+        def callback(request):
+            tries[0] += 1
+            print(tries)
+            if tries[0] <= 2:
+                raise ConnectionError('connection error')
+            print('Returning normal')
+            return (201, {'Hermes-Message-Id': hermes_event_id}, "")
+
+        responses.add_callback(
+            method=responses.POST,
+            url="{}/topics/{}.{}".format(
+                HERMES_SETTINGS.BASE_URL, TEST_GROUP_NAME, TEST_TOPIC
+            ),
+            match_querystring=True,
+            content_type='application/json',
+            callback=callback,
+        )
+        response = publish('{}.{}'.format(TEST_GROUP_NAME, TEST_TOPIC), data)
+        self.assertEqual(response, hermes_event_id)
+        self.assertEqual(tries[0], 3)
+
+    @override_hermes_settings(HERMES=TEST_HERMES_SETTINGS)
+    @responses.activate
+    def test_publish_request_wrong_response_code_with_retry(self):
+        data = {'test': 'data'}
+        hermes_event_id = 'hermes_ok'
+        tries = [0]
+
+        def callback(request):
+            tries[0] += 1
+            if tries[0] <= 2:
+                return (408, {}, "")
+            return (202, {'Hermes-Message-Id': hermes_event_id}, "")
+
+        responses.add_callback(
+            method=responses.POST,
+            url="{}/topics/{}.{}".format(
+                HERMES_SETTINGS.BASE_URL, TEST_GROUP_NAME, TEST_TOPIC
+            ),
+            match_querystring=True,
+            content_type='application/json',
+            callback=callback,
+        )
+        response = publish('{}.{}'.format(TEST_GROUP_NAME, TEST_TOPIC), data)
+        self.assertEqual(response, hermes_event_id)
+        self.assertEqual(tries[0], 3)
