@@ -1,9 +1,16 @@
 
 # History
 
+## 0.3.0 (2016-12-29)
+
+* Retry publishing to hermes in case of failure (default: 3x)
+* Support for Python3.6, Django 1.10 and Django development version in tests
+
+
 ## 0.2.1 (2016-12-12)
 
 * Configure custom label for django app #11
+
 
 ## 0.2.0 (2016-11-03)
 
