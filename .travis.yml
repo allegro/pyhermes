@@ -7,49 +7,50 @@ python:
 
 sudo: false
 
-env:
-  - TOX_ENV=py36-djangodev
-  # - TOX_ENV=py35-djangodev
-  - TOX_ENV=py34-djangodev
-  - TOX_ENV=py27-djangodev
+# env:
+#   - TOX_ENV=py36-djangodev
+#   # - TOX_ENV=py35-djangodev
+#   - TOX_ENV=py34-djangodev
+#   - TOX_ENV=py27-djangodev
 
-  - TOX_ENV=py36-django110
-  # - TOX_ENV=py35-django110
-  - TOX_ENV=py34-django110
-  - TOX_ENV=py27-django110
+#   - TOX_ENV=py36-django110
+#   # - TOX_ENV=py35-django110
+#   - TOX_ENV=py34-django110
+#   - TOX_ENV=py27-django110
 
-  - TOX_ENV=py36-django19
-  # - TOX_ENV=py35-django19
-  - TOX_ENV=py34-django19
-  - TOX_ENV=py27-django19
+#   - TOX_ENV=py36-django19
+#   # - TOX_ENV=py35-django19
+#   - TOX_ENV=py34-django19
+#   - TOX_ENV=py27-django19
 
-  - TOX_ENV=py36-django18
-  # - TOX_ENV=py35-django18
-  - TOX_ENV=py34-django18
-  - TOX_ENV=py27-django18
+#   - TOX_ENV=py36-django18
+#   # - TOX_ENV=py35-django18
+#   - TOX_ENV=py34-django18
+#   - TOX_ENV=py27-django18
 
-  - TOX_ENV=py34-django17
-  - TOX_ENV=py33-django17
-  - TOX_ENV=py27-django17
+#   - TOX_ENV=py34-django17
+#   - TOX_ENV=py33-django17
+#   - TOX_ENV=py27-django17
 
-matrix:
-  fast_finish: true
-  include:
-    - python: "3.5"
-      env: TOX_ENV=py35-djangodev
-    - python: "3.5"
-      env: TOX_ENV=py35-django110
-    - python: "3.5"
-      env: TOX_ENV=py35-django19
-    - python: "3.5"
-      env: TOX_ENV=py35-django18
+# matrix:
+#   fast_finish: true
+#   include:
+#     - python: "3.5"
+#       env: TOX_ENV=py35-djangodev
+#     - python: "3.5"
+#       env: TOX_ENV=py35-django110
+#     - python: "3.5"
+#       env: TOX_ENV=py35-django19
+#     - python: "3.5"
+#       env: TOX_ENV=py35-django18
 
 install:
   - pip install tox flake8
 
 script:
-  - tox -e $TOX_ENV
-  - make lint
+  # - tox -e $TOX_ENV
+  # - make lint
+  - echo $(which python)
 
 after_success:
   - pip install codecov
