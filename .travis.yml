@@ -9,8 +9,10 @@ sudo: false
 
 env:
   - TOX_ENV=py36-djangodev
-  - TOX_ENV=py34-djangodev
-  - TOX_ENV=py27-djangodev
+
+  - TOX_ENV=py36-django111
+  - TOX_ENV=py34-django111
+  - TOX_ENV=py27-django111
 
   - TOX_ENV=py36-django110
   - TOX_ENV=py34-django110
@@ -36,11 +38,18 @@ matrix:
     - python: "3.5"
       env: TOX_ENV=py35-djangodev
     - python: "3.5"
+      env: TOX_ENV=py35-django111
+    - python: "3.5"
       env: TOX_ENV=py35-django110
     - python: "3.5"
       env: TOX_ENV=py35-django19
     - python: "3.5"
       env: TOX_ENV=py35-django18
+  allow_failures:
+    # Django dev is Django 2.0 now, removing python2 compatibility - allow
+    # failuers temporary
+    - env: TOX_ENV=py35-djangodev
+    - env: TOX_ENV=py36-djangodev
 
 install:
   - pip install tox flake8
