@@ -6,7 +6,7 @@ from ddt import ddt, data, unpack
 from requests.exceptions import ConnectionError, HTTPError, Timeout
 
 from pyhermes.exceptions import HermesPublishException
-from pyhermes.publishing import publish
+from pyhermes.publishing import _strip_topic_group, publish
 from pyhermes.settings import HERMES_SETTINGS
 from pyhermes.utils import override_hermes_settings
 
@@ -192,3 +192,19 @@ class PublisherTestCase(TestCase):
         response = publish('{}.{}'.format(TEST_GROUP_NAME, TEST_TOPIC), data)
         self.assertEqual(response, hermes_event_id)
         self.assertEqual(tries[0], 3)
+
+
+class TestStripTopicGroupName(TestCase):
+    @override_hermes_settings(HERMES=TEST_HERMES_SETTINGS)
+    def test_stripping_group_name_when_topic_startswith_group_name(self):
+        self.assertEqual(
+            _strip_topic_group('pl.allegro.pyhermes.my-topic'),
+            'my-topic'
+        )
+
+    @override_hermes_settings(HERMES=TEST_HERMES_SETTINGS)
+    def test_stripping_group_name_when_topic_not_startswith_group_name(self):
+        self.assertEqual(
+            _strip_topic_group('my-topic'),
+            'my-topic'
+        )

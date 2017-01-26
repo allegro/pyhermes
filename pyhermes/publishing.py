@@ -19,7 +19,7 @@ def _strip_topic_group(topic):
     """
     group_name = HERMES_SETTINGS.PUBLISHING_GROUP['groupName']
     if topic.startswith(group_name):
-        topic = topic[len(group_name):]
+        topic = topic[len(group_name):].lstrip('.')
     return topic
 
 
