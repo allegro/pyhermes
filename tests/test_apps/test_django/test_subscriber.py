@@ -2,7 +2,10 @@
 import json
 
 from ddt import ddt, data as ddt_data, unpack
-from django.core.urlresolvers import reverse
+try:
+    from django.urls import reverse
+except ImportError:
+    from django.core.urlresolvers import reverse
 from django.test import Client, TestCase
 
 from pyhermes.decorators import subscriber
