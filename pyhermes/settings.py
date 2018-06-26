@@ -9,11 +9,13 @@ Use `HERMES_SETTINGS` for all of pyhermes settings.
 """
 import six
 
+from pyhermes.utils import AttributeDict  # noqa
+
 try:
     from django.conf import settings as user_settings
 except ImportError:
-    from pyhermes.utils import AttributeDict  # noqa
     user_settings = AttributeDict({'HERMES': {}})
+
 
 from pyhermes.exceptions import PyhermesImproperlyConfiguredError
 from pyhermes.utils import Singleton
@@ -38,7 +40,7 @@ class HermesSettings(six.with_metaclass(Singleton, object)):
 
     """
     def __init__(self):
-        self._wrapper = None
+        self._wrapper = AttributeDict()
 
     def __getattr__(self, attr):
         try:
@@ -50,9 +52,13 @@ class HermesSettings(six.with_metaclass(Singleton, object)):
             return DEFAULTS[attr]
 
     def update(self, **settings):
-        if not isinstance(user_settings, AttributeDict):
-            raise TypeError()  # TODO: better info
-        user_settings['HERMES'].update(settings)
+        if isinstance(user_settings, AttributeDict):
+            user_settings['HERMES'].update(settings)
+        else:
+            if self._wrapper.get('HERMES'):
+                self._wrapper['HERMES'].update(settings)
+            else:
+                self._wrapper['HERMES'] = settings
 
 
 HERMES_SETTINGS = HermesSettings()
