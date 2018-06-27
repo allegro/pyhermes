@@ -1,10 +1,7 @@
 import logging
-import json
 from flask import abort, request, Blueprint
 from pyhermes.exceptions import TopicHandlersNotFoundError
 from pyhermes.subscription import handle_subscription
-from http import HTTPStatus
-
 
 logger = logging.getLogger(__name__)
 subscriber_handler = Blueprint('pyhermes', __name__)
@@ -21,10 +18,10 @@ def subscriber_view(subscriber_name):
         handle_subscription(subscriber_name, raw_data, event_id, retry_count)
     except TopicHandlersNotFoundError:
         logger.error('subscriber `{}` does not exist.'.format(subscriber_name))
-        return abort(HTTPStatus.NOT_FOUND)
-    except (ValueError, json.decoder.JSONDecodeError):
+        return abort(404)
+    except ValueError:
         # json loading error
         # TODO: better handling
-        return abort(HTTPStatus.BAD_REQUEST)
+        return abort(400)
     else:
-        return ('', HTTPStatus.NO_CONTENT)
+        return ('', 204)

@@ -45,8 +45,7 @@ def run_tests(*test_args):
     # Run tests
     TestRunner = get_runner(settings)
     test_runner = TestRunner()
-
-    failures = test_runner.run_tests(test_args)
+    failures = test_runner.run_tests(test_args, exclude_tags='tests/test_apps/test_flask/')
 
     if failures:
         sys.exit(bool(failures))
