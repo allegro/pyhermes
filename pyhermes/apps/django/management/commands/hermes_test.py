@@ -1,11 +1,7 @@
 # -*- coding: utf-8 -*-
 from django.core.management.base import BaseCommand
 
-from pyhermes.exceptions import HermesPublishException
-from pyhermes.publishing import publish
-from pyhermes.settings import HERMES_SETTINGS
-
-TOPICS_ALL = 'all'
+from pyhermes.management import integrations_command_handler, TOPICS_ALL
 
 
 class Command(BaseCommand):
@@ -25,28 +21,6 @@ class Command(BaseCommand):
         )
 
     def handle(self, *args, **options):
-        if not HERMES_SETTINGS.ENABLED:
-            self.stderr.write(
-                'Hermes integration is disabled. '
-                'Check HERMES.ENABLED variable '
-                'in your settings or environment.'
-            )
-            return
-
         topic = options.get('topic')
         message = options.get('message')
-        if topic == TOPICS_ALL:
-            topics = HERMES_SETTINGS.PUBLISHING_TOPICS.keys()
-        else:
-            topics = [topic]
-
-        for topic in topics:
-            try:
-                self.stdout.write('Sending message to {}'.format(topic))
-                publish(topic, {'result': message})
-            except HermesPublishException as e:
-                self.stderr.write(str(e))
-            else:
-                self.stdout.write(
-                    'Message was sent successfully to {}!'.format(topic)
-                )
+        integrations_command_handler(topic, message)

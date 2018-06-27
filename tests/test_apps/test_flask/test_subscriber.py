@@ -1,23 +1,40 @@
-# -*- coding: utf-8 -*-
 import json
-
-from ddt import ddt, data as ddt_data, unpack
+import unittest
 try:
-    from django.urls import reverse
+    from flask import Flask
 except ImportError:
-    from django.core.urlresolvers import reverse
-from django.test import Client, TestCase
+    pass
+from ddt import ddt, data as ddt_data, unpack
 
+from pyhermes.apps.flask import configure_pyhermes
 from pyhermes.decorators import subscriber
 
 
 @ddt
-class SubscriberTestCase(TestCase):
+class SubscriberTestCase(unittest.TestCase):
+
     def setUp(self):
-        self.client = Client()
+        app = Flask(__name__)
+        app.debug = True
+        app.config['HERMES'] = {
+            'BASE_URL': 'http://hermes.local:8090',
+            'SUBSCRIBERS_MAPPING': {'pl.hermes.testTopic': 'new_message'},
+            'PUBLISHING_TOPICS': {
+                'test1': {
+                    'description': "test topic",
+                    'ack': 'LEADER',
+                    'retentionTime': 1,
+                    'trackingEnabled': False,
+                    'contentType': 'JSON',
+                    'validationEnabled': False,
+                }
+            }
+        }
+        self.app_client = app.test_client()
+        configure_pyhermes(app, url_prefix='/hermes')
 
     def test_subscription_with_single_handler(self):
-        topic = 'pl.allegro.pyhermes.test-subscriber-topic1'
+        topic = 'new_message'
         called = [False]
         data = {'a': 'b', 'c': 2}
 
@@ -26,16 +43,15 @@ class SubscriberTestCase(TestCase):
             called[0] = True
             self.assertEqual(d, data)
 
-        response = self.client.post(
-            reverse('hermes-event-subscriber', args=(topic,)),
+        response = self.app_client.post(
+            '/hermes/events/pl.hermes.testTopic/',
             data=json.dumps(data),
-            content_type='application/json',
         )
         self.assertEqual(response.status_code, 204)
         self.assertEqual(called, [True])
 
     def test_subscription_with_multiple_handlers(self):
-        topic = 'pl.allegro.pyhermes.test-subscriber-topic2'
+        topic = 'new_message'
         called = [0]
         data = {'a': 'b', 'c': 2}
 
@@ -47,21 +63,18 @@ class SubscriberTestCase(TestCase):
         def subscriber_2(d):
             called[0] = called[0] + 1
 
-        response = self.client.post(
-            reverse('hermes-event-subscriber', args=(topic,)),
+        response = self.app_client.post(
+            '/hermes/events/pl.hermes.testTopic/',
             data=json.dumps(data),
-            content_type='application/json',
         )
         self.assertEqual(response.status_code, 204)
         self.assertEqual(called, [2])
 
     def test_subscription_handler_not_found(self):
-        topic = 'pl.allegro.pyhermes.test-subscriber-handler-not-found'
         data = {'a': 'b', 'c': 2}
-        response = self.client.post(
-            reverse('hermes-event-subscriber', args=(topic,)),
+        response = self.app_client.post(
+            '/hermes/events/pl.hermes.topicNotFound/',
             data=json.dumps(data),
-            content_type='application/json',
         )
         self.assertEqual(response.status_code, 404)
 
@@ -70,15 +83,18 @@ class SubscriberTestCase(TestCase):
         ('invalid_json',),
     )
     def test_subscription_bad_request(self, data):
-        topic = 'pl.allegro.pyhermes.test-subscriber-topic3'
+        topic = 'new_message'
 
         @subscriber(topic=topic)
         def subscriber_1(d):
             pass
 
-        response = self.client.post(
-            reverse('hermes-event-subscriber', args=(topic,)),
+        response = self.app_client.post(
+            '/hermes/events/pl.hermes.testTopic/',
             data=data,
-            content_type='application/json',
         )
         self.assertEqual(response.status_code, 400)
+
+
+if __name__ == '__main__':
+    unittest.main()

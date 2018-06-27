@@ -9,14 +9,8 @@ Use `HERMES_SETTINGS` for all of pyhermes settings.
 """
 import six
 
-try:
-    from django.conf import settings as user_settings
-except ImportError:
-    from pyhermes.utils import AttributeDict  # noqa
-    user_settings = AttributeDict({'HERMES': {}})
-
 from pyhermes.exceptions import PyhermesImproperlyConfiguredError
-from pyhermes.utils import Singleton
+from pyhermes.utils import AttributeDict, Singleton
 
 _DEFAULT_GROUP_NAME = '__default__'
 DEFAULTS = {
@@ -38,21 +32,32 @@ class HermesSettings(six.with_metaclass(Singleton, object)):
 
     """
     def __init__(self):
-        self._wrapper = None
+        self._wrapper = AttributeDict()
 
     def __getattr__(self, attr):
         try:
-            if self._wrapper:
-                return self._wrapper['HERMES'][attr]
-            else:
-                return getattr(user_settings, 'HERMES', {})[attr]
+            from django.core.exceptions import ImproperlyConfigured  # noqa: E501
+            from django.conf import settings as django_settings
+        except ImportError:
+            pass
+        else:
+            try:
+                self._wrapper = AttributeDict(
+                    {'HERMES': django_settings.HERMES}
+                )
+            except (AttributeError, ImproperlyConfigured):
+                pass
+
+        try:
+            return self._wrapper['HERMES'][attr]
         except KeyError:
             return DEFAULTS[attr]
 
     def update(self, **settings):
-        if not isinstance(user_settings, AttributeDict):
-            raise TypeError()  # TODO: better info
-        user_settings['HERMES'].update(settings)
+        if self._wrapper.get('HERMES'):
+            self._wrapper['HERMES'].update(settings)
+        else:
+            self._wrapper['HERMES'] = settings
 
 
 HERMES_SETTINGS = HermesSettings()
