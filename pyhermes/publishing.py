@@ -62,8 +62,15 @@ def _send_message_to_hermes(url, headers, json_data):
             raise HermesPublishException(message)
 
     if resp.status_code not in HERMES_VALID_RESPONSE_CODES:
-        message = 'Bad response code during Hermes push: {}.'.format(
-            resp.status_code
+        response_body = ''
+        try:
+            response_body = ' with reason: {}.'.format(resp.json())
+        except ValueError:
+            logger.debug(
+                'Unable to decode Hermes response as json', exc_info=True
+            )
+        message = 'Bad response code during Hermes push: {}{}.'.format(
+            resp.status_code, response_body
         )
         raise HermesPublishException(message)
     return resp
