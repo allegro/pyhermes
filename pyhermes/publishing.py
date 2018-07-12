@@ -64,7 +64,7 @@ def _send_message_to_hermes(url, headers, json_data):
     if resp.status_code not in HERMES_VALID_RESPONSE_CODES:
         response_body = ''
         try:
-            response_body = ' with reason: {}.'.format(resp.json())
+            response_body = ' with reason: {}'.format(resp.json())
         except ValueError:
             logger.debug(
                 'Unable to decode Hermes response as json', exc_info=True
