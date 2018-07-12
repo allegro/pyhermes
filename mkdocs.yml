@@ -8,7 +8,8 @@ pages:
   - Publishing: publishing.md
   - Django integration: django.md
   - Mock client: hermes_mock.md
-theme: readthedocs
+theme:
+    name: readthedocs
 strict: true
 dev_addr: 0.0.0.0:8003
 markdown_extensions:
