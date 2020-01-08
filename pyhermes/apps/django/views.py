@@ -15,8 +15,8 @@ logger = logging.getLogger(__name__)
 @require_POST
 def subscriber_view(request, subscriber_name):
     raw_data = request.read().decode('utf-8')
-    event_id = request.META.get('HTTP_HERMES_MESSAGE_ID')
-    retry_count = request.META.get('HTTP_HERMES_RETRY_COUNT')
+    event_id = request.META.get('Hermes-Message-Id')
+    retry_count = request.META.get('Hermes-Retry-Count')
     try:
         handle_subscription(subscriber_name, raw_data, event_id, retry_count)
     except TopicHandlersNotFoundError:

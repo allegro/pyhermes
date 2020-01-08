@@ -12,8 +12,8 @@ subscriber_handler = Blueprint('pyhermes', __name__)
 )
 def subscriber_view(subscriber_name):
     raw_data = request.get_data().decode('utf-8')
-    event_id = request.headers.get('HTTP_HERMES_MESSAGE_ID')
-    retry_count = request.headers.get('HTTP_HERMES_RETRY_COUNT')
+    event_id = request.headers.get('Hermes-Message-Id')
+    retry_count = request.headers.get('Hermes-Retry-Count')
     try:
         handle_subscription(subscriber_name, raw_data, event_id, retry_count)
     except TopicHandlersNotFoundError:
