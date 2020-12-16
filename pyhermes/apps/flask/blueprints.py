@@ -19,9 +19,9 @@ def subscriber_view(subscriber_name):
     except TopicHandlersNotFoundError:
         logger.error('subscriber `{}` does not exist.'.format(subscriber_name))
         return abort(404)
-    except ValueError:
-        # json loading error
-        # TODO: better handling
+    except (ValueError, TypeError) as e:
+        # Input loading error
+        logger.error(str(e))
         return abort(400)
     else:
-        return ('', 204)
+        return '', 204
