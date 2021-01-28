@@ -27,13 +27,13 @@ lint:
 	flake8 pyhermes tests
 
 test:
-	python runtests.py tests
+	python runtests_django.py tests
 
 test-all:
 	tox
 
 coverage:
-	coverage run --source pyhermes runtests.py tests
+	coverage run --source pyhermes runtests_django.py tests
 	coverage report -m
 	coverage html
 	open htmlcov/index.html
