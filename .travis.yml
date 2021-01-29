@@ -9,56 +9,37 @@ sudo: false
 
 env:
   - TOX_ENV=py27
-  - TOX_ENV=py34
-  - TOX_ENV=py36
   - TOX_ENV=py39
 
   - TOX_ENV=py39-django315
 
   - TOX_ENV=py27-django111
-  - TOX_ENV=py34-django111
-  - TOX_ENV=py36-django111
   - TOX_ENV=py39-django111
 
   - TOX_ENV=py27-django110
-  - TOX_ENV=py34-django110
-  - TOX_ENV=py36-django110
   - TOX_ENV=py39-django110
 
   - TOX_ENV=py27-django19
-  - TOX_ENV=py34-django19
-  - TOX_ENV=py36-django19
   - TOX_ENV=py39-django19
 
   - TOX_ENV=py27-django18
-  - TOX_ENV=py34-django18
-  - TOX_ENV=py36-django18
   - TOX_ENV=py39-django18
 
   - TOX_ENV=py27-djangodev
-  - TOX_ENV=py34-djangodev
-  - TOX_ENV=py36-djangodev
   - TOX_ENV=py39-djangodev
 
-  - TOX_ENV=py27-django17
-  - TOX_ENV=py34-django17
+  - TOX_ENV=py27-django177
   - TOX_ENV=py39-django17
 
   - TOX_ENV=py27-flask10
-  - TOX_ENV=py34-flask10
-  - TOX_ENV=py36-flask10
   - TOX_ENV=py39-flask10
 
   - TOX_ENV=py27-flask012
-  - TOX_ENV=py34-flask012
-  - TOX_ENV=py36-flask012
   - TOX_ENV=py39-flask012
 
   - TOX_ENV=py39-flask112
 
   - TOX_ENV=py27-flaskdev
-  - TOX_ENV=py34-flaskdev
-  - TOX_ENV=py36-flaskdev
   - TOX_ENV=py39-flaskdev
 
 matrix:
