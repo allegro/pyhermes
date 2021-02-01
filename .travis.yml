@@ -28,7 +28,7 @@ env:
   - TOX_ENV=py27-djangodev
   - TOX_ENV=py39-djangodev
 
-  - TOX_ENV=py27-django177
+  - TOX_ENV=py27-django17
   - TOX_ENV=py39-django17
 
   - TOX_ENV=py27-flask10
