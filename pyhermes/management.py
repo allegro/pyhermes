@@ -9,14 +9,12 @@ def integrations_command_handler(topic, message):
     from pyhermes.publishing import publish
     from pyhermes.settings import HERMES_SETTINGS
     if not HERMES_SETTINGS.ENABLED:
-            sys.stderr.write(
-                'Hermes integration is disabled. '
-                'Check HERMES.ENABLED variable '
-                'in your settings or environment.'
-            )
-            return
+        sys.stderr.write('Hermes integration is disabled. '
+                         'Check HERMES.ENABLED variable '
+                         'in your settings or environment.')
+        return
     if topic == TOPICS_ALL:
-            topics = HERMES_SETTINGS.PUBLISHING_TOPICS.keys()
+        topics = HERMES_SETTINGS.PUBLISHING_TOPICS.keys()
     else:
         topics = [topic]
 

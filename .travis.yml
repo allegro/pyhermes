@@ -3,77 +3,77 @@
 language: python
 
 python:
-  - "3.6"
+  - "3.9"
 
 sudo: false
 
 env:
   - TOX_ENV=py27
-  - TOX_ENV=py34
-  - TOX_ENV=py36
+  - TOX_ENV=py39
+
+  - TOX_ENV=py39-django315
 
   - TOX_ENV=py27-django111
-  - TOX_ENV=py34-django111
-  - TOX_ENV=py36-django111
+  - TOX_ENV=py39-django111
 
   - TOX_ENV=py27-django110
-  - TOX_ENV=py34-django110
-  - TOX_ENV=py36-django110
+  - TOX_ENV=py39-django110
 
   - TOX_ENV=py27-django19
-  - TOX_ENV=py34-django19
-  - TOX_ENV=py36-django19
+  - TOX_ENV=py39-django19
 
   - TOX_ENV=py27-django18
-  - TOX_ENV=py34-django18
-  - TOX_ENV=py36-django18
+  - TOX_ENV=py39-django18
 
   - TOX_ENV=py27-djangodev
-  - TOX_ENV=py34-djangodev
-  - TOX_ENV=py36-djangodev
+  - TOX_ENV=py39-djangodev
 
   - TOX_ENV=py27-django17
-  - TOX_ENV=py34-django17
+  - TOX_ENV=py39-django17
 
   - TOX_ENV=py27-flask10
-  - TOX_ENV=py34-flask10
-  - TOX_ENV=py36-flask10
+  - TOX_ENV=py39-flask10
 
   - TOX_ENV=py27-flask012
-  - TOX_ENV=py34-flask012
-  - TOX_ENV=py36-flask012
+  - TOX_ENV=py39-flask012
+
+  - TOX_ENV=py39-flask112
 
   - TOX_ENV=py27-flaskdev
-  - TOX_ENV=py34-flaskdev
-  - TOX_ENV=py36-flaskdev
+  - TOX_ENV=py39-flaskdev
 
 matrix:
   fast_finish: true
   # python 3.5 and 3.6 are installed on demand, so to not create additional
-  # dimension in build matrix, python3.5 build are specified directly here
+  # dimension in build matrix, python3.9 build are specified directly here
   include:
-    - python: "3.5"
-      env: TOX_ENV=py35-djangodev
-    - python: "3.5"
-      env: TOX_ENV=py35-django111
-    - python: "3.5"
-      env: TOX_ENV=py35-django110
-    - python: "3.5"
-      env: TOX_ENV=py35-django19
-    - python: "3.5"
-      env: TOX_ENV=py35-django18
+    - python: "3.9"
+      env: TOX_ENV=py39-django315
+    - python: "3.9"
+      env: TOX_ENV=py39-djangodev
+    - python: "3.9"
+      env: TOX_ENV=py39-django111
+    - python: "3.9"
+      env: TOX_ENV=py39-django110
+    - python: "3.9"
+      env: TOX_ENV=py39-django19
+    - python: "3.9"
+      env: TOX_ENV=py39-django18
 
-    - python: "3.5"
-      env: TOX_ENV=py35-flask10
-    - python: "3.5"
-      env: TOX_ENV=py35-flask012
-    - python: "3.5"
-      env: TOX_ENV=py35-flaskdev
+    - python: "3.9"
+      env: TOX_ENV=py39-flask10
+    - python: "3.9"
+      env: TOX_ENV=py39-flask012
+    - python: "3.9"
+      env: TOX_ENV=py39-flask112
+    - python: "3.9"
+      env: TOX_ENV=py39-flaskdev
   allow_failures:
     # Django dev is Django 2.0 now, removing python2 compatibility - allow
     # failuers temporary
     - env: TOX_ENV=py35-djangodev
     - env: TOX_ENV=py36-djangodev
+    - env: TOX_ENV=py39-djangodev
 
 install:
   - pip install tox flake8
