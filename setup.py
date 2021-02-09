@@ -45,6 +45,7 @@ setup(
     version=version,
     description="""The Python interface to the Hermes message broker.""",
     long_description=readme + '\n\n' + history,
+    long_description_content_type='text/markdown',
     author='Allegrogroup',
     author_email='pylabs@allegro.pl',
     url='https://github.com/allegro/pyhermes',
