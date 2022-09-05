@@ -1,6 +1,12 @@
 
 # History
 
+## 0.5.0 (2022-09-02)
+
+* Rename django app label from `pyhermes.django` to `pyhermes_django`
+* Compatibility with Django 3.2
+
+
 ## 0.3.0 (2016-12-29)
 
 * Retry publishing to hermes in case of failure (default: 3x)
