@@ -1,6 +1,10 @@
 
 # History
 
+## 0.6.0 (2023-13-02)
+
+* Compatibility with Django 4.1
+
 ## 0.5.0 (2022-09-02)
 
 * Rename django app label from `pyhermes.django` to `pyhermes_django`
