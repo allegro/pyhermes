@@ -1,0 +1,12 @@
+[build-system]
+requires = ["setuptools>=42", "wheel"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "pyhermes"
+dynamic = ["version"]
+description = "The Python interface to the Hermes http://hermes.allegro.tech message broker."
+license = { text = "Apache Software License 2.0" }
+
+[tool.setuptools.dynamic]
+version = {attr = "pyhermes.__version__"}
