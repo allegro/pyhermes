@@ -44,9 +44,6 @@ dependencies = [
 zip-safe = false
 include-package-data = true
 
-# [tool.setuptools.dynamic]
-# version = {attr = "pyhermes.__version__"}
-
 [tool.setuptools.packages.find]
 where = ["."]
 include = ["pyhermes*"]
