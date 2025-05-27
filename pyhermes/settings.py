@@ -23,8 +23,9 @@ DEFAULTS = {
     'PUBLISHING_TOPICS': {},
     'SUBSCRIBERS_MAPPING': {},
     'RETRY_MAX_ATTEMTPS': 3,
+    'READ_TIMEOUT': 0.5,
+    'CONNECT_TIMEOUT': 0.3
 }
-# TODO: publishing timeout
 
 
 class HermesSettings(six.with_metaclass(Singleton, object)):
