@@ -53,10 +53,11 @@ def _send_message_to_hermes(url, headers, json_data):
     """
     Send message to hermes with retrying.
     """
+    timeout = (HERMES_SETTINGS.CONNECT_TIMEOUT, HERMES_SETTINGS.READ_TIMEOUT)
     with requests.Session() as session:
         _handle_request_adapter(session)
         try:
-            resp = session.post(url, headers=headers, data=json_data)
+            resp = session.post(url, headers=headers, data=json_data, timeout=timeout)
         except (ConnectionError, HTTPError, Timeout) as e:
             message = 'Error pushing event to Hermes: {}.'.format(e)
             raise HermesPublishException(message)
@@ -115,3 +116,4 @@ def publish(topic, data):
         )
     )
     return hermes_event_id
+
